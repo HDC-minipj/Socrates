@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "BOJ Algorithm Helper",
+  "version": "1.0.0",
+  "description": "백준 문제를 분석하여 적합한 알고리즘과 풀이 접근을 RAG 방식으로 설명해주는 확장 프로그램",
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://www.acmicpc.net/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.acmicpc.net/problem/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
