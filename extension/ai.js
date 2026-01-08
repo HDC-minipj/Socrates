@@ -67,36 +67,56 @@ const LEVEL_NAMES = {
 class SocratesAI {
     constructor() {
         this.apiKey = null;
+        this.provider = 'openai'; // 'openai' or 'local'
+        this.localUrl = 'http://localhost:8080/v1/chat/completions';
     }
 
-    async loadApiKey() {
+    async loadSettings() {
         return new Promise((resolve) => {
-            chrome.storage.sync.get(['openaiApiKey'], (result) => {
+            chrome.storage.sync.get(['openaiApiKey', 'provider', 'localUrl'], (result) => {
                 this.apiKey = result.openaiApiKey || null;
-                resolve(this.apiKey);
+                this.provider = result.provider || 'openai';
+                this.localUrl = result.localUrl || 'http://localhost:8080/v1/chat/completions';
+                resolve();
             });
         });
     }
 
     async generateHint(problem, level) {
-        if (!this.apiKey) {
-            await this.loadApiKey();
-        }
+        await this.loadSettings();
 
-        if (!this.apiKey) {
+        if (this.provider === 'openai' && !this.apiKey) {
             throw new Error('API_KEY_NOT_SET');
         }
 
         const systemPrompt = SYSTEM_PROMPTS[level] || SYSTEM_PROMPTS[0];
         const userPrompt = this.buildUserPrompt(problem, level);
 
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
-            method: 'POST',
-            headers: {
+        let url, headers, body;
+
+        if (this.provider === 'local') {
+            url = this.localUrl;
+            headers = {
+                'Content-Type': 'application/json'
+                // No Auth for local usually
+            };
+            body = {
+                stream: false,
+                messages: [
+                    { role: 'system', content: systemPrompt },
+                    { role: 'user', content: userPrompt }
+                ],
+                temperature: 0.7,
+                max_tokens: 1000
+            };
+        } else {
+            // OpenAI
+            url = 'https://api.openai.com/v1/chat/completions';
+            headers = {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${this.apiKey}`
-            },
-            body: JSON.stringify({
+            };
+            body = {
                 model: 'gpt-4o-mini',
                 messages: [
                     { role: 'system', content: systemPrompt },
@@ -104,28 +124,43 @@ class SocratesAI {
                 ],
                 temperature: 0.7,
                 max_tokens: 1000
-            })
-        });
-
-        if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.error?.message || 'API request failed');
+            };
         }
 
-        const data = await response.json();
-        let hint = data.choices[0].message.content;
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify(body)
+            });
 
-        // Filter code blocks for levels < 5
-        if (level < 5) {
-            hint = this.filterCode(hint);
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`API Error: ${response.status} ${response.statusText}\n${errorText}`);
+            }
+
+            const data = await response.json();
+            let hint = data.choices[0].message.content;
+
+            // Filter code blocks for levels < 5
+            if (level < 5) {
+                hint = this.filterCode(hint);
+            }
+
+            return {
+                level,
+                hint,
+                levelName: LEVEL_NAMES[level]
+            };
+        } catch (error) {
+            console.error('AI Request Failed:', error);
+            throw new Error(this.provider === 'local'
+                ? '로컬 서버 연결 실패. llama-server가 켜져 있는지 확인하세요.'
+                : (error.message || 'API request failed'));
         }
-
-        return {
-            level,
-            hint,
-            levelName: LEVEL_NAMES[level]
-        };
     }
+
+
 
     buildUserPrompt(problem, level) {
         let examples = '';

@@ -154,14 +154,36 @@
         </div>
 
         <div class="card">
-            <label for="api-key">OpenAI API Key</label>
-            <div class="input-wrapper">
-                <input type="password" id="api-key" placeholder="sk-proj-...">
-                <button class="toggle-visibility" id="toggle-btn">👁</button>
+            <label for="provider-select">Model Provider</label>
+            <div class="input-wrapper" style="margin-bottom: 16px;">
+                <select id="provider-select"
+                    style="width: 100%; padding: 12px 16px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #fff; font-size: 14px; cursor: pointer;">
+                    <option value="openai">OpenAI (GPT-4o)</option>
+                    <option value="local">Local Llama (gemma-3-4b)</option>
+                </select>
             </div>
-            <p class="hint">
-                API 키가 없다면 <a href="https://platform.openai.com/api-keys" target="_blank">OpenAI</a>에서 발급받으세요.
-            </p>
+
+            <div id="openai-config">
+                <label for="api-key">OpenAI API Key</label>
+                <div class="input-wrapper">
+                    <input type="password" id="api-key" placeholder="sk-proj-...">
+                    <button class="toggle-visibility" id="toggle-btn">👁</button>
+                </div>
+                <p class="hint">
+                    API 키가 없다면 <a href="https://platform.openai.com/api-keys" target="_blank">OpenAI</a>에서 발급받으세요.
+                </p>
+            </div>
+
+            <div id="local-config" style="display: none;">
+                <label for="local-url">Local Server URL</label>
+                <div class="input-wrapper">
+                    <input type="text" id="local-url" placeholder="http://localhost:8080/v1/chat/completions"
+                        value="http://localhost:8080/v1/chat/completions">
+                </div>
+                <p class="hint">
+                    llama-server를 실행한 주소를 입력하세요. (OpenAI 호환 엔드포인트)
+                </p>
+            </div>
         </div>
 
         <button class="btn" id="save-btn">저장하기</button>

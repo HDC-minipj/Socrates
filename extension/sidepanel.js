@@ -32,9 +32,13 @@ const elements = {
 async function init() {
     console.log('[Socrates] Side Panel 초기화 (Serverless v2)');
 
-    // Check API key
-    const apiKey = await ai.loadApiKey();
-    if (!apiKey) {
+    // Check API key/provider
+    await ai.loadSettings();
+
+    // Only require API key if provider is OpenAI
+    const isConfigured = ai.provider === 'local' || (ai.provider === 'openai' && ai.apiKey);
+
+    if (!isConfigured) {
         showApiWarning(true);
     } else {
         showApiWarning(false);
@@ -57,8 +61,17 @@ async function init() {
         }
     });
 
-    // Auto-generate Level 0 summary if API key exists
-    if (state.problem && state.hints.length === 0 && apiKey) {
+    // Listen for settings changes (API key, Provider)
+    chrome.storage.onChanged.addListener(async (changes, areaName) => {
+        if (areaName === 'sync') {
+            await ai.loadSettings();
+            const isConfigured = ai.provider === 'local' || (ai.provider === 'openai' && ai.apiKey);
+            showApiWarning(!isConfigured);
+        }
+    });
+
+    // Auto-generate Level 0 summary if configured
+    if (state.problem && state.hints.length === 0 && isConfigured) {
         await requestHint(0);
     }
 }
@@ -139,9 +152,12 @@ function setupEventListeners() {
 async function requestHint(level) {
     if (state.isLoading || !state.problem) return;
 
-    // Check API key
-    const apiKey = await ai.loadApiKey();
-    if (!apiKey) {
+    // Check settings
+    await ai.loadSettings();
+
+    const isConfigured = ai.provider === 'local' || (ai.provider === 'openai' && ai.apiKey);
+
+    if (!isConfigured) {
         showApiWarning(true);
         showError('API 키를 먼저 설정해주세요.');
         return;
@@ -165,6 +181,9 @@ async function requestHint(level) {
             level: level,
             content: result.hint
         });
+
+        // Success - hide warning
+        showApiWarning(false);
 
         // Render
         updateLevelProgress();
