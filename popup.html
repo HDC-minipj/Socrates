@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { width: 320px; padding: 15px; font-family: 'Malgun Gothic', sans-serif; background-color: #fcfcfc;}
+        h3 { margin-top: 0; color: #333; border-bottom: 2px solid #333; padding-bottom: 10px; }
+
+        .chat-container {
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .bubble {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            font-size: 14px;
+            line-height: 1.5;
+            color: #444;
+        }
+
+        .step-badge {
+            display: inline-block;
+            background: #000;
+            color: #fff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        button { 
+            width: 100%; 
+            padding: 12px; 
+            background: #333; 
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-weight: bold;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+        button:hover { background: #555; }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+
+        #hidden-area { display: none; }
+    </style>
+</head>
+<body>
+    <h3>🏛️ 소크라테스 힌트</h3>
+
+    <div class="chat-container">
+        <div id="output-area">
+            <div class="bubble">
+                문제를 풀다가 막히셨나요?<br>
+                제가 질문을 던져 드릴게요. 스스로 답을 찾아보세요.
+            </div>
+        </div>
+
+        <button id="actionBtn">힌트 시작하기</button>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>

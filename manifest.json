@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "백준 힌트 봇",
+  "version": "1.0",
+  "description": "백준 문제 풀 때 힌트를 주는 봇입니다.",
+  "permissions": ["activeTab", "scripting"],
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
