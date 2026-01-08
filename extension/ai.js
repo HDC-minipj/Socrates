@@ -135,6 +135,14 @@ class SocratesAI {
             });
         }
 
+        // RAG: 알고리즘 유형 검색
+        let ragContext = '';
+        if (window.AlgorithmRAG) {
+            const rag = new window.AlgorithmRAG();
+            const ragResult = rag.search(problem);
+            ragContext = ragResult.prompt;
+        }
+
         return `
 ## Baekjoon Problem #${problem.problemId}
 
@@ -153,7 +161,7 @@ ${problem.output || 'N/A'}
 ${problem.limit || 'N/A'}
 
 ${examples}
-
+${ragContext}
 ---
 
 Current Level: Level ${level}
