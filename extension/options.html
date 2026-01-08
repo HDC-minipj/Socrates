@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socrates 설정</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0f0f23;
+            color: #fff;
+            min-height: 100vh;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .logo {
+            font-size: 32px;
+        }
+
+        h1 {
+            font-size: 24px;
+            background: linear-gradient(135deg, #6366f1, #22d3ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 8px;
+        }
+
+        input[type="password"],
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .hint {
+            margin-top: 8px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .hint a {
+            color: #6366f1;
+            text-decoration: none;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .status {
+            margin-top: 16px;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            text-align: center;
+            display: none;
+        }
+
+        .status.success {
+            display: block;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #10b981;
+        }
+
+        .status.error {
+            display: block;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+        }
+
+        .toggle-visibility {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <span class="logo">🦉</span>
+            <h1>Socrates 설정</h1>
+        </div>
+
+        <div class="card">
+            <label for="api-key">OpenAI API Key</label>
+            <div class="input-wrapper">
+                <input type="password" id="api-key" placeholder="sk-proj-...">
+                <button class="toggle-visibility" id="toggle-btn">👁</button>
+            </div>
+            <p class="hint">
+                API 키가 없다면 <a href="https://platform.openai.com/api-keys" target="_blank">OpenAI</a>에서 발급받으세요.
+            </p>
+        </div>
+
+        <button class="btn" id="save-btn">저장하기</button>
+
+        <div class="status" id="status"></div>
+    </div>
+
+    <script src="options.js"></script>
+</body>
+
+</html>

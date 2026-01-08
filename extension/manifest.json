@@ -1,0 +1,48 @@
+{
+  "manifest_version": 3,
+  "name": "Socrates - 백준 AI 튜터",
+  "version": "2.0.0",
+  "description": "백준 문제를 소크라테스 방식으로 풀어가는 AI 튜터",
+  "permissions": [
+    "activeTab",
+    "sidePanel",
+    "storage"
+  ],
+  "host_permissions": [
+    "*://www.acmicpc.net/*",
+    "https://api.openai.com/*"
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://www.acmicpc.net/problem/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "content-styles.css"
+      ]
+    }
+  ],
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "options_page": "options.html",
+  "action": {
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "Socrates 열기"
+  }
+}

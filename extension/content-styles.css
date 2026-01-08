@@ -1,0 +1,71 @@
+/* Socrates Floating Action Button */
+
+#socrates-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999999;
+  
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  
+  padding: 12px 20px;
+  border: none;
+  border-radius: 50px;
+  
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: white;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  
+  cursor: pointer;
+  box-shadow: 
+    0 4px 14px rgba(99, 102, 241, 0.4),
+    0 0 40px rgba(99, 102, 241, 0.2);
+  
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: socrates-pulse 2s infinite;
+}
+
+#socrates-fab:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 
+    0 6px 20px rgba(99, 102, 241, 0.5),
+    0 0 60px rgba(99, 102, 241, 0.3);
+}
+
+#socrates-fab:active {
+  transform: translateY(0) scale(0.98);
+}
+
+#socrates-fab svg {
+  width: 20px;
+  height: 20px;
+}
+
+@keyframes socrates-pulse {
+  0%, 100% {
+    box-shadow: 
+      0 4px 14px rgba(99, 102, 241, 0.4),
+      0 0 40px rgba(99, 102, 241, 0.2);
+  }
+  50% {
+    box-shadow: 
+      0 4px 20px rgba(99, 102, 241, 0.6),
+      0 0 60px rgba(99, 102, 241, 0.3);
+  }
+}
+
+/* 반응형 - 모바일 대응 */
+@media (max-width: 768px) {
+  #socrates-fab span {
+    display: none;
+  }
+  
+  #socrates-fab {
+    padding: 14px;
+    border-radius: 50%;
+  }
+}
