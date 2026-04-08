@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Socrates</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <div class="logo-icon">🦉</div>
+        <h1>Socrates</h1>
+      </div>
+      <button class="settings-btn" id="settings-btn" title="설정">⚙️</button>
+    </header>
+
+    <!-- API Key Warning -->
+    <div class="api-warning" id="api-warning" style="display: none;">
+      <p>⚠️ API 키가 설정되지 않았습니다.</p>
+      <button class="setup-btn" id="setup-btn">설정하기</button>
+    </div>
+
+    <!-- Problem Info -->
+    <section class="problem-card" id="problem-card">
+      <div class="problem-header">
+        <span class="problem-id" id="problem-id">--</span>
+        <h2 class="problem-title" id="problem-title">문제를 불러오는 중...</h2>
+      </div>
+      <p class="problem-desc" id="problem-desc"></p>
+    </section>
+
+    <!-- Level Progress -->
+    <section class="level-section">
+      <div class="level-header">
+        <span class="level-label">진행 단계</span>
+        <span class="level-current" id="level-text">Level 0</span>
+      </div>
+      <div class="level-track">
+        <div class="level-progress" id="level-progress"></div>
+        <div class="level-dots">
+          <div class="level-dot active" data-level="0">
+            <span class="dot-tooltip">요약</span>
+          </div>
+          <div class="level-dot" data-level="1">
+            <span class="dot-tooltip">방향</span>
+          </div>
+          <div class="level-dot" data-level="2">
+            <span class="dot-tooltip">질문</span>
+          </div>
+          <div class="level-dot" data-level="3">
+            <span class="dot-tooltip">아이디어</span>
+          </div>
+          <div class="level-dot" data-level="4">
+            <span class="dot-tooltip">접근법</span>
+          </div>
+          <div class="level-dot" data-level="5">
+            <span class="dot-tooltip">코드</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Hint Cards Container -->
+    <section class="hints-container" id="hints-container">
+      <!-- Hints will be dynamically added here -->
+    </section>
+
+    <!-- Action Button -->
+    <div class="action-area">
+      <button class="action-btn" id="next-hint-btn">
+        <span class="btn-text">다음 힌트 받기</span>
+        <span class="btn-icon">→</span>
+      </button>
+      <p class="action-hint" id="action-hint">Level 1로 진행합니다</p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <button class="reset-btn" id="reset-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+          <path d="M3 3v5h5" />
+        </svg>
+        처음부터
+      </button>
+      <div class="footer-info">
+        <span class="version">v2.8 Local</span>
+      </div>
+    </footer>
+  </div>
+
+  <script src="algorithm-db.js"></script>
+  <script src="rag.js"></script>
+  <script src="ai.js"></script>
+  <script src="sidepanel.js"></script>
+</body>
+
+</html>
